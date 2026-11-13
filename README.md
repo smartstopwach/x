@@ -12,18 +12,20 @@ installed to a phone's home screen as a standalone app (PWA), with offline suppo
 - Works offline after the first load (service worker cache)
 
 ## Run it
-No build step is needed. Serve the `app/` folder with any static server:
+No build step is needed. Serve the repository root with any static server:
 
 ```bash
-cd app
 python3 -m http.server 8000 --bind 0.0.0.0
 ```
 
-Then open http://localhost:8000. On a phone, use "Add to Home Screen"
-(or the Install button on the Profile tab).
+- http://localhost:8000/ is the website (landing page).
+- http://localhost:8000/app/ is the game.
+
+On a phone, use "Add to Home Screen" (or the Install button on the Profile tab).
 
 ## Layout
 ```
+index.html, site.css  website (landing page)
 app/
   index.html            markup and screens
   styles.css            theme, layout, animations
