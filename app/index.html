@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#6c5ce7" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Match" />
+  <meta name="description" content="Match — a simple, fast memory game." />
+  <title>Match</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.png" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app" class="app">
+    <header class="topbar" id="topbar">
+      <button class="icon-btn hidden" id="back-btn" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="24" height="24"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <h1 id="title">Match</h1>
+      <div class="topbar-right" id="topbar-right"></div>
+    </header>
+
+    <main class="screens">
+      <!-- HOME -->
+      <section class="screen" id="screen-home" data-tab="home">
+        <div class="hero">
+          <div class="hero-emoji" aria-hidden="true">🧠</div>
+          <h2>Find the pairs</h2>
+          <p class="muted">Flip two cards at a time. Match them all in as few moves as you can.</p>
+        </div>
+        <div class="card-list">
+          <button class="list-item" data-action="start" data-level="easy">
+            <span class="badge easy">4×3</span>
+            <span class="li-body"><strong>Easy</strong><small>6 pairs · relaxed</small></span>
+            <span class="li-best" id="best-easy">—</span>
+          </button>
+          <button class="list-item" data-action="start" data-level="medium">
+            <span class="badge medium">4×4</span>
+            <span class="li-body"><strong>Medium</strong><small>8 pairs · classic</small></span>
+            <span class="li-best" id="best-medium">—</span>
+          </button>
+          <button class="list-item" data-action="start" data-level="hard">
+            <span class="badge hard">6×4</span>
+            <span class="li-body"><strong>Hard</strong><small>12 pairs · brain burner</small></span>
+            <span class="li-best" id="best-hard">—</span>
+          </button>
+        </div>
+        <button class="btn primary big" data-action="start" data-level="medium">Play now</button>
+      </section>
+
+      <!-- GAME -->
+      <section class="screen" id="screen-game" data-tab="home">
+        <div class="stats">
+          <div class="stat"><span id="stat-moves">0</span><small>Moves</small></div>
+          <div class="stat"><span id="stat-time">0:00</span><small>Time</small></div>
+          <div class="stat"><span id="stat-matched">0/0</span><small>Pairs</small></div>
+        </div>
+        <div class="board" id="board" role="grid"></div>
+        <div class="game-actions">
+          <button class="btn ghost" data-action="restart">Restart</button>
+          <button class="btn ghost" data-action="home">Levels</button>
+        </div>
+      </section>
+
+      <!-- SCORES -->
+      <section class="screen" id="screen-scores" data-tab="scores">
+        <h2 class="section-title">Your best games</h2>
+        <div class="card-list" id="scores-list"></div>
+        <p class="muted small center" id="scores-empty">Finish a game to see your scores here.</p>
+        <div id="scores-extra"></div>
+      </section>
+
+      <!-- PROFILE -->
+      <section class="screen" id="screen-profile" data-tab="profile">
+        <div class="profile-head">
+          <div class="avatar" id="avatar" aria-hidden="true">🙂</div>
+          <div>
+            <input id="name-input" class="name-input" maxlength="20" placeholder="Your name" aria-label="Your name" />
+            <p class="muted small" id="profile-stats">No games played yet</p>
+          </div>
+        </div>
+        <h3 class="section-title">Avatar</h3>
+        <div class="avatars" id="avatar-picker"></div>
+        <h3 class="section-title">Settings</h3>
+        <div class="card-list">
+          <label class="list-item toggle">
+            <span class="li-body"><strong>Haptics</strong><small>Vibrate on match</small></span>
+            <input type="checkbox" id="opt-haptics" />
+          </label>
+          <label class="list-item toggle">
+            <span class="li-body"><strong>Sound effects</strong><small>Soft tones on flip and match</small></span>
+            <input type="checkbox" id="opt-sound" />
+          </label>
+        </div>
+        <button class="btn ghost danger" id="reset-btn">Reset all data</button>
+        <button class="btn primary hidden" id="install-btn">Install app</button>
+      </section>
+    </main>
+
+    <nav class="tabbar" id="tabbar" aria-label="Main">
+      <button class="tab active" data-tab-target="home">
+        <svg viewBox="0 0 24 24" width="24" height="24"><rect x="3" y="3" width="8" height="8" rx="2" fill="currentColor"/><rect x="13" y="3" width="8" height="8" rx="2" fill="currentColor" opacity=".5"/><rect x="3" y="13" width="8" height="8" rx="2" fill="currentColor" opacity=".5"/><rect x="13" y="13" width="8" height="8" rx="2" fill="currentColor" opacity=".5"/></svg>
+        <span>Play</span>
+      </button>
+      <button class="tab" data-tab-target="scores">
+        <svg viewBox="0 0 24 24" width="24" height="24"><path d="M8 4h8v4a4 4 0 0 1-8 0V4zM5 4h3v3a3 3 0 0 1-3-3zM19 4h-3v3a3 3 0 0 0 3-3zM10 16h4v3h-4zM7 20h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+        <span>Scores</span>
+      </button>
+      <button class="tab" data-tab-target="profile">
+        <svg viewBox="0 0 24 24" width="24" height="24"><circle cx="12" cy="8" r="4" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <span>Profile</span>
+      </button>
+    </nav>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <div class="win-sheet hidden" id="win-sheet" role="dialog" aria-modal="true" aria-labelledby="win-title">
+      <div class="sheet">
+        <div class="win-emoji" aria-hidden="true">🎉</div>
+        <h2 id="win-title">You did it!</h2>
+        <p class="muted" id="win-text"></p>
+        <button class="btn primary big" data-action="restart">Play again</button>
+        <button class="btn ghost big" data-action="home">Choose level</button>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
