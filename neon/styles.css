@@ -1,0 +1,69 @@
+:root { --cyan: #22e6ff; --pink: #ff2bd6; --lime: #39ff88; --red: #ff3b5c; --bg: #05030f; }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { height: 100%; margin: 0; background: var(--bg); color: #eaf7ff; font-family: "Segoe UI", system-ui, -apple-system, Roboto, sans-serif; overflow: hidden; }
+.hidden { display: none !important; }
+button { font: inherit; cursor: pointer; }
+
+.stage { position: fixed; inset: 0; display: flex; align-items: center; justify-content: center; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+.stage::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 50% 30%, rgba(255,43,214,.18), transparent 60%), radial-gradient(circle at 50% 90%, rgba(34,230,255,.16), transparent 55%); pointer-events: none; }
+.grid-bg { position: absolute; inset: 0; background-image: linear-gradient(rgba(34,230,255,.07) 1px, transparent 1px), linear-gradient(90deg, rgba(255,43,214,.07) 1px, transparent 1px); background-size: 42px 42px; transform: perspective(500px) rotateX(60deg) translateY(-30%) scale(2.2); transform-origin: top; pointer-events: none; animation: scroll 6s linear infinite; }
+@keyframes scroll { to { background-position: 0 42px; } }
+
+/* camera feed as dimmed, tinted background */
+#cam { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); opacity: 0; filter: grayscale(1) contrast(1.3) brightness(.45) sepia(1) hue-rotate(190deg) saturate(3); transition: opacity .5s; pointer-events: none; }
+.stage.cam-on #cam { opacity: .55; }
+
+.panel { position: relative; z-index: 2; width: min(440px, 92vw); display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center; padding: 24px; animation: rise .4s ease; }
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } }
+
+.logo { font-size: 46px; font-weight: 900; line-height: .95; letter-spacing: 2px; color: #fff; text-shadow: 0 0 6px var(--cyan), 0 0 18px var(--cyan), 0 0 40px var(--pink); }
+.logo span { color: var(--pink); text-shadow: 0 0 6px var(--pink), 0 0 22px var(--pink), 0 0 50px var(--pink); }
+.logo.small { font-size: 34px; }
+.desc, .hint, .cam-box p, .status { color: #a9c7d6; margin: 0; line-height: 1.5; }
+.g { color: var(--lime); text-shadow: 0 0 8px var(--lime); }
+
+.cam-box { width: 100%; border: 1px solid rgba(34,230,255,.45); border-radius: 18px; padding: 18px; background: rgba(5,3,15,.7); box-shadow: 0 0 22px rgba(34,230,255,.2), inset 0 0 18px rgba(34,230,255,.08); display: flex; flex-direction: column; gap: 12px; }
+.cam-title { font-weight: 800; color: var(--cyan); text-shadow: 0 0 8px var(--cyan); }
+.status { min-height: 1.2em; font-size: 14px; }
+.status.err { color: var(--red); }
+.best-line { color: #a9c7d6; }
+.best-line b { color: var(--lime); text-shadow: 0 0 8px var(--lime); }
+
+.btn { width: 100%; padding: 15px; border-radius: 14px; border: 2px solid transparent; font-weight: 800; font-size: 16px; letter-spacing: .5px; background: transparent; color: #fff; transition: transform .12s, box-shadow .2s; }
+.btn:active { transform: scale(.97); }
+.btn.neon { border-color: var(--cyan); color: var(--cyan); box-shadow: 0 0 12px rgba(34,230,255,.5), inset 0 0 12px rgba(34,230,255,.2); text-shadow: 0 0 8px var(--cyan); }
+.btn.neon:hover { box-shadow: 0 0 22px rgba(34,230,255,.8), inset 0 0 16px rgba(34,230,255,.35); }
+.btn.ghost { border-color: rgba(255,43,214,.6); color: var(--pink); box-shadow: 0 0 10px rgba(255,43,214,.35); text-shadow: 0 0 6px var(--pink); }
+.btn:disabled { opacity: .5; }
+
+.top { width: 100%; display: flex; justify-content: space-between; align-items: center; color: #a9c7d6; font-weight: 700; }
+.chip { background: transparent; color: var(--pink); border: 1px solid rgba(255,43,214,.6); border-radius: 999px; padding: 6px 14px; }
+
+/* the neon ring that acts as the signal */
+.ring { width: min(300px, 74vw); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; border: 6px solid var(--red); box-shadow: 0 0 20px var(--red), 0 0 60px rgba(255,59,92,.6), inset 0 0 40px rgba(255,59,92,.35); transition: all .15s; background: rgba(5,3,15,.55); }
+.ring span { font-size: 30px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; color: #fff; text-shadow: 0 0 10px currentColor; }
+.stage[data-phase="wait"] .ring { border-color: var(--red); }
+.stage[data-phase="go"] .ring { border-color: var(--lime); box-shadow: 0 0 26px var(--lime), 0 0 80px rgba(57,255,136,.7), inset 0 0 60px rgba(57,255,136,.45); background: rgba(57,255,136,.12); }
+.stage[data-phase="go"] .ring span { color: var(--lime); }
+.stage[data-phase="early"] .ring { border-color: var(--pink); box-shadow: 0 0 26px var(--pink), 0 0 70px rgba(255,43,214,.6); }
+.stage[data-phase="go"] .ring { animation: pulse .5s ease-in-out infinite alternate; }
+@keyframes pulse { to { transform: scale(1.04); } }
+
+.times { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; min-height: 34px; }
+.times .t { border: 1px solid rgba(34,230,255,.5); border-radius: 999px; padding: 6px 12px; color: var(--cyan); font-variant-numeric: tabular-nums; font-weight: 700; text-shadow: 0 0 6px var(--cyan); }
+
+.big-score { font-size: 84px; font-weight: 900; color: var(--lime); text-shadow: 0 0 10px var(--lime), 0 0 30px var(--lime); line-height: 1; font-variant-numeric: tabular-nums; }
+.big-score small { display: block; font-size: 16px; color: #a9c7d6; text-shadow: none; font-weight: 600; margin-top: 6px; }
+.grade { font-size: 22px; font-weight: 800; color: var(--pink); text-shadow: 0 0 10px var(--pink); }
+.rounds { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
+.rounds .r { background: rgba(34,230,255,.08); border: 1px solid rgba(34,230,255,.35); padding: 8px 12px; border-radius: 10px; font-variant-numeric: tabular-nums; }
+.rounds .r.bad { border-color: var(--pink); color: var(--pink); }
+
+/* full-screen flash on signal */
+.flash { position: fixed; inset: 0; pointer-events: none; opacity: 0; z-index: 5; }
+.flash.on { animation: flash .35s ease-out; }
+@keyframes flash { 0% { opacity: .35; background: var(--lime); } 100% { opacity: 0; background: var(--lime); } }
+.flash.bad.on { animation-name: flashBad; }
+@keyframes flashBad { 0% { opacity: .35; background: var(--pink); } 100% { opacity: 0; background: var(--pink); } }
+
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

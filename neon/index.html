@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no" />
+  <meta name="theme-color" content="#05030f" />
+  <meta name="description" content="Neon Reaction — test your reflexes. Optional camera mode: wave your hand to react." />
+  <title>Neon Reaction</title>
+  <link rel="icon" href="../app/icons/icon.svg" type="image/svg+xml" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="stage" id="stage" data-phase="idle">
+    <video id="cam" playsinline muted autoplay></video>
+    <canvas id="motion" width="48" height="36" hidden></canvas>
+    <div class="grid-bg" aria-hidden="true"></div>
+
+    <!-- START / PERMISSION -->
+    <section class="panel" id="p-start">
+      <div class="logo">NEON<br /><span>REACTION</span></div>
+      <p class="desc">Wait for the light to turn <b class="g">green</b>, then react as fast as you can. Five rounds. Lowest average wins.</p>
+      <div class="cam-box">
+        <div class="cam-title">📷 Camera mode (optional)</div>
+        <p>Allow camera to react by <b>waving your hand</b> instead of tapping. Video stays on this device and is never uploaded.</p>
+        <button class="btn neon" id="btn-cam">Allow camera & play</button>
+        <button class="btn ghost" id="btn-tap">Play with tap only</button>
+        <p class="status" id="cam-status"></p>
+      </div>
+      <div class="best-line">Best average: <b id="best-avg">—</b></div>
+    </section>
+
+    <!-- PLAY -->
+    <section class="panel hidden" id="p-play">
+      <div class="top">
+        <span id="round-label">Round 1 / 5</span>
+        <button class="chip" id="btn-quit">Quit</button>
+      </div>
+      <div class="ring" id="ring"><span id="cue">Get ready</span></div>
+      <p class="hint" id="hint">Tap or wave when it turns green</p>
+      <div class="times" id="times"></div>
+    </section>
+
+    <!-- RESULT -->
+    <section class="panel hidden" id="p-result">
+      <div class="logo small">RESULTS</div>
+      <div class="big-score"><span id="res-avg">0</span><small>ms avg</small></div>
+      <div class="grade" id="res-grade"></div>
+      <div class="rounds" id="res-rounds"></div>
+      <button class="btn neon" id="btn-again">Play again</button>
+      <button class="btn ghost" id="btn-home">Menu</button>
+    </section>
+
+    <div class="flash" id="flash"></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -96,3 +96,5 @@ p { margin: 0; }
   .hero-art { margin-top: 8px; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+
+.cta-row { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
